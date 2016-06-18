@@ -57,6 +57,20 @@ namespace ImplicitNullability.Plugin.Tests.Integrative
         }
 
         [Test]
+        public void WithEnabledFields()
+        {
+            Test(changeSettings: solution => EnableImplicitNullability(solution, enableFields: true),
+                definedExpectedWarningSymbols: new[] { "Flds" },
+                //
+                assert: issueFilePaths =>
+                {
+                    // Fixation of selected files
+                    Assert.That(issueFilePaths, Has.Some.EqualTo("FieldsSample.cs"));
+                    Assert.That(issueFilePaths, Has.Some.EqualTo("FieldsSampleTests.cs"));
+                });
+        }
+
+        [Test]
         public void WithoutEnabledImplicitNullabilityOptions()
         {
             // Ensures that when the implicit nullability settings are disabled, the conditional expected warnings are *not* present.
@@ -69,7 +83,8 @@ namespace ImplicitNullability.Plugin.Tests.Integrative
         {
             Test(changeSettings: solution => EnableImplicitNullability(solution /* no options*/),
                 projectFilter: x => x.Name == ExternalCodeConsumerProjectName,
-                definedExpectedWarningSymbols: new[] { "MIn", "MRef", "MOut" } /*as configured in ImplicitNullabilityAssemblyMetadata.cs*/,
+                // as configured in ImplicitNullabilityAssemblyMetadata.cs:
+                definedExpectedWarningSymbols: new[] { "MIn", "MRef", "MOut", "Flds" },
                 //
                 assert: issueFilePaths =>
                 {

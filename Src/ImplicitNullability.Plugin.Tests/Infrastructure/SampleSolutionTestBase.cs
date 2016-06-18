@@ -8,6 +8,7 @@ using JetBrains.ProjectModel;
 using JetBrains.ProjectModel.DataContext;
 using JetBrains.ReSharper.Daemon.CSharp.Errors;
 using JetBrains.ReSharper.Daemon.Stages.Dispatcher;
+using JetBrains.ReSharper.Daemon.UsageChecking;
 using JetBrains.Util;
 using NUnit.Framework;
 
@@ -36,7 +37,9 @@ namespace ImplicitNullability.Plugin.Tests.Infrastructure
                 typeof(AssignNullToNotNullAttributeWarning),
                 typeof(ConditionIsAlwaysTrueOrFalseWarning),
                 typeof(PossibleNullReferenceExceptionWarning),
-                typeof(PossibleInvalidOperationExceptionWarning)
+                typeof(PossibleInvalidOperationExceptionWarning),
+                //TODO: add typeof(NotNullMemberIsNotInitializedWarning), and add expections in all the nunit fixture classes
+                typeof(UnassignedReadonlyFieldWarning)
             }
                 .Concat(implicitNullabilityProblemAnalyzerHighlightingTypes);
         }
@@ -45,7 +48,8 @@ namespace ImplicitNullability.Plugin.Tests.Infrastructure
             ISolution sampleSolution,
             bool enableInputParameters = false,
             bool enableRefParameters = false,
-            bool enableOutParametersAndResult = false)
+            bool enableOutParametersAndResult = false,
+            bool enableFields = false)
         {
             // We need to change the settings here by code, because the settings stored in the .DotSettings files aren't 
             // evaluated (see https://resharper-support.jetbrains.com/hc/en-us/community/posts/206628865).
@@ -59,16 +63,18 @@ namespace ImplicitNullability.Plugin.Tests.Infrastructure
             Assert.That(solutionSettings.GetValue((ImplicitNullabilitySettings s) => s.EnableInputParameters), Is.True);
             Assert.That(solutionSettings.GetValue((ImplicitNullabilitySettings s) => s.EnableRefParameters), Is.True);
             Assert.That(solutionSettings.GetValue((ImplicitNullabilitySettings s) => s.EnableOutParametersAndResult), Is.True);
+            Assert.That(solutionSettings.GetValue((ImplicitNullabilitySettings s) => s.EnableFields), Is.True);
 
             solutionSettings.SetValue((ImplicitNullabilitySettings s) => s.Enabled, true);
             solutionSettings.SetValue((ImplicitNullabilitySettings s) => s.EnableInputParameters, enableInputParameters);
             solutionSettings.SetValue((ImplicitNullabilitySettings s) => s.EnableRefParameters, enableRefParameters);
             solutionSettings.SetValue((ImplicitNullabilitySettings s) => s.EnableOutParametersAndResult, enableOutParametersAndResult);
+            solutionSettings.SetValue((ImplicitNullabilitySettings s) => s.EnableFields, enableFields);
         }
 
         protected static void EnableImplicitNullabilityWithAllOptions(ISolution sampleSolution)
         {
-            EnableImplicitNullability(sampleSolution, true, true, true);
+            EnableImplicitNullability(sampleSolution, true, true, true, true);
         }
     }
 }

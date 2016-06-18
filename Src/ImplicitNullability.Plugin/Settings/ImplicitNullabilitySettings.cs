@@ -17,5 +17,36 @@ namespace ImplicitNullability.Plugin.Settings
 
         [SettingsEntry(true, "EnableOutParametersAndResult")]
         public readonly bool EnableOutParametersAndResult;
+
+        [SettingsEntry(true, "EnableFields")]
+        public readonly bool EnableFields;
+
+        /*
+         
+        TODO for fields:
+
+        # Highlightings !
+        # Public vs. Non Public ? readonly?
+        # More Test cases?
+
+
+        Settings variants:
+        
+         # [AssemblyMetadataAttribute("ImplicitNullability.AppliesTo", "..., ReadonlyFields, NonReadonlyFields")]
+         
+         # [AssemblyMetadataAttribute("ImplicitNullability.AppliesTo", "..., Fields")] vs. [AssemblyMetadataAttribute("..., ReadonlyFields")]
+         
+         # [AssemblyMetadataAttribute("ImplicitNullability.AppliesTo", "..., Fields[ReadOnly|NonReadonly]")]
+         
+         # [AssemblyMetadataAttribute("ImplicitNullability.AppliesTo", "..., Fields[OnlyReadOnly]")]
+         
+         # [AssemblyMetadataAttribute("ImplicitNullability.AppliesTo", "..., Fields")]
+           &
+           [AssemblyMetadataAttribute("ImplicitNullability.Fields", "OnlyReadonly")]
+
+
+
+
+        */
     }
 }

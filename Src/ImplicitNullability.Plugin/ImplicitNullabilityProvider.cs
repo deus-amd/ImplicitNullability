@@ -44,6 +44,10 @@ namespace ImplicitNullability.Plugin
             if (@delegate != null)
                 result = AnalyzeDelegate(@delegate);
 
+            var field = declaredElement as IField;
+            if (field != null)
+                result = AnalyzeField(field);
+
             return result;
         }
 
@@ -100,6 +104,18 @@ namespace ImplicitNullability.Plugin
             if (_configurationEvaluator.EvaluateFor(@delegate.Module).EnableOutParametersAndResult)
             {
                 result = GetNullabilityForType(@delegate.InvokeMethod.ReturnType);
+            }
+
+            return result;
+        }
+
+        private CodeAnnotationNullableValue? AnalyzeField(IField field)
+        {
+            CodeAnnotationNullableValue? result = null;
+
+            if (_configurationEvaluator.EvaluateFor(field.Module).EnableFields)
+            {
+                result = GetNullabilityForType(field.Type);
             }
 
             return result;

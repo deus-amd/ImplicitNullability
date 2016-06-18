@@ -21,12 +21,13 @@ namespace ImplicitNullability.Plugin.Tests.UnitTests
         [Test]
         public void ConvertToAssemblyMetadataAttributeCode_WithAllOptionsEnabled()
         {
-            var configuration = new ImplicitNullabilityConfiguration(true, true, true);
+            var configuration = new ImplicitNullabilityConfiguration(true, true, true, true);
 
             var result = AssemblyAttributeConfigurationTranslator.GenerateAttributeCode(configuration);
 
-            Assert.That(result, Is.EqualTo("[assembly: System.Reflection.AssemblyMetadataAttribute(\"ImplicitNullability.AppliesTo\", " +
-                                           "\"InputParameters, RefParameters, OutParametersAndResult\")]"));
+            Assert.That(result, Is.EqualTo("[assembly: System.Reflection.AssemblyMetadataAttribute(" +
+                                           "\"ImplicitNullability.AppliesTo\", " +
+                                           "\"InputParameters, RefParameters, OutParametersAndResult, Fields\")]"));
         }
     }
 }

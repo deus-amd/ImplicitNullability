@@ -24,6 +24,7 @@ namespace ImplicitNullability.Plugin.Settings
         private readonly BoolOptionViewModel _enableInputParametersOption;
         private readonly BoolOptionViewModel _enableRefParametersOption;
         private readonly BoolOptionViewModel _enableOutParametersAndResultOption;
+        private readonly BoolOptionViewModel _enableFieldsOption;
 
         public ImplicitNullabilityOptionsPage(Lifetime lifetime, OptionsSettingsSmartContext optionsSettingsSmartContext, Clipboard clipboard)
             : base(lifetime, optionsSettingsSmartContext)
@@ -62,6 +63,12 @@ namespace ImplicitNullability.Plugin.Settings
                 "Return values and out parameters of methods and delegates",
                 enabledOption);
             SetIndent(_enableOutParametersAndResultOption, 2);
+
+            _enableFieldsOption = AddNullabilityBoolOption(
+                s => s.EnableFields,
+                "Fields",
+                enabledOption);
+            SetIndent(_enableFieldsOption, 2);
 
             var assemblyAttributeInfoText1 =
                 "\n" +
@@ -106,7 +113,8 @@ namespace ImplicitNullability.Plugin.Settings
                 new ImplicitNullabilityConfiguration(
                     _enableInputParametersOption.CheckedProperty.Value,
                     _enableRefParametersOption.CheckedProperty.Value,
-                    _enableOutParametersAndResultOption.CheckedProperty.Value));
+                    _enableOutParametersAndResultOption.CheckedProperty.Value,
+                    _enableFieldsOption.CheckedProperty.Value));
 
             _clipboard.SetText(assemblyMetadataCode);
             MessageBox.ShowInfo("The following code has been copied to your clipboard:\n\n\n" + assemblyMetadataCode);

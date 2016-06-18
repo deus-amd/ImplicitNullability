@@ -18,6 +18,7 @@ namespace ImplicitNullability.Plugin
         private const string InputParametersAssemblyAttributeOption = "InputParameters";
         private const string RefParametersAssemblyAttributeOption = "RefParameters";
         private const string OutParametersAndResultAssemblyAttributeOption = "OutParametersAndResult";
+        private const string FieldsAssemblyAttributeOption = "Fields";
 
         public static ImplicitNullabilityConfiguration? ParseAttributes(IAttributesSet attributes)
         {
@@ -41,6 +42,9 @@ namespace ImplicitNullability.Plugin
 
             if (configuration.EnableOutParametersAndResult)
                 optionTexts.Add(OutParametersAndResultAssemblyAttributeOption);
+
+            if (configuration.EnableFields)
+                optionTexts.Add(FieldsAssemblyAttributeOption);
 
             return $"[assembly: {AssemblyMetadataAttributeTypeName.FullName}(" +
                    $"\"{AppliesToAttributeKey}\", " +
@@ -68,7 +72,8 @@ namespace ImplicitNullability.Plugin
             return new ImplicitNullabilityConfiguration(
                 optionTexts.Contains(InputParametersAssemblyAttributeOption),
                 optionTexts.Contains(RefParametersAssemblyAttributeOption),
-                optionTexts.Contains(OutParametersAndResultAssemblyAttributeOption));
+                optionTexts.Contains(OutParametersAndResultAssemblyAttributeOption),
+                optionTexts.Contains(FieldsAssemblyAttributeOption));
         }
     }
 }

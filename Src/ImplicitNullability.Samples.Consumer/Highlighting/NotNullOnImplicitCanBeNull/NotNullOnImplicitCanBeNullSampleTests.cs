@@ -17,6 +17,12 @@ namespace ImplicitNullability.Samples.Consumer.Highlighting.NotNullOnImplicitCan
         }
 
         [Test]
+        public void Field()
+        {
+            _instance.Field = null /*Expect:AssignNullToNotNullAttribute*/;
+        }
+
+        [Test]
         public void MethodWithNullableInt()
         {
             Action act = () => _instance.MethodWithNullableInt(null /*Expect:AssignNullToNotNullAttribute*/);
