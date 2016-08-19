@@ -73,6 +73,8 @@
     <!-- Only opt-in, because it seems that the R# Test SDK doesn't support the Exclude attribute: -->
     <Compile Include="NullabilityAnalysis\**\*.cs" />
     <Compile Include="Highlighting\**\*.cs" />
+    <Compile Include="TypeHighlighting\**\*.cs" />
+    <None Include="TypeHighlighting\**\*.gold" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.ImplicitNullability.Samples.CodeWithIN.Internal.config" />

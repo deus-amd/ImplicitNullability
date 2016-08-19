@@ -1,0 +1,115 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using JetBrains.Annotations;
+
+namespace ImplicitNullability.Samples.CodeWithIN.TypeHighlighting
+{
+    public abstract class TypeHighlightingSampleBase
+    {
+        [NotNull]
+        public abstract |string|(0) VirtualMethodExplicit([NotNull] |string|(1) a, [CanBeNull] string b);
+    }
+
+    public class TypeHighlightingSample : TypeHighlightingSampleBase
+    {
+        [NotNull]
+        public |string|(2) MethodExplicit([NotNull] |string|(3) a)
+        {
+            return a;
+        }
+
+        public |string|(4) MethodImplicit(|string|(5) a)
+        {
+            Console.WriteLine(|a == null|(6));
+            return |null|(7);
+        }
+
+        public void NonReferenceTypes(int a, DateTime b)
+        {
+        }
+
+        [CanBeNull]
+        public string Nullable([CanBeNull] string a)
+        {
+            return a;
+        }
+
+        // ReSharper disable once ImplicitNotNullConflictInHierarchy
+        public override |string|(8) VirtualMethodExplicit(|string|(9) a, string b)
+        {
+            return a;
+        }
+
+        public static |TypeHighlightingSample|(10) operator ++(|TypeHighlightingSample|(11) value)
+        {
+            return new TypeHighlightingSample();
+        }
+
+        [CanBeNull]
+        public static TypeHighlightingSample operator --([CanBeNull] TypeHighlightingSample value)
+        {
+            return null;
+        }
+
+        public delegate |string|(12) SomeDelegate(|string|(13) a);
+
+        [CanBeNull]
+        public delegate string SomeNullableDelegate([CanBeNull] string a);
+
+        // TODO: Iterator is implicitly NotNull. That's true, still make an exemption (to be symmetric with async methods?)
+        public |IEnumerable<string>|(14) Iterator()
+        {
+            yield return "";
+        }
+
+        // TODO: Highlight inner type based on ItemNotNull
+        public async Task<|string|(15)> AsyncMethod()
+        {
+            await Task.Delay(0);
+            return "";
+        }
+
+        public async Task VoidAsyncMethod()
+        {
+            await Task.Delay(0);
+        }
+
+        [ItemCanBeNull]
+        public async Task<string> NullableAsyncMethod()
+        {
+            await Task.Delay(0);
+            return null;
+        }
+
+        // TODO: What about non-async methods?
+        public Task<|string|(16)> NonAsyncButTaskResult()
+        {
+            return Task.FromResult("");
+        }
+
+        [ItemCanBeNull]
+        public Task<string> NonAsyncButNullableTaskResult()
+        {
+            return Task.FromResult<string>(null);
+        }
+    }
+}
+---------------------------------------------------------
+(0): INTypeHighlighting: 'string' is (explicitly or implicitly) [NotNull]
+(1): INTypeHighlighting: 'string' is (explicitly or implicitly) [NotNull]
+(2): INTypeHighlighting: 'string' is (explicitly or implicitly) [NotNull]
+(3): INTypeHighlighting: 'string' is (explicitly or implicitly) [NotNull]
+(4): INTypeHighlighting: 'string' is (explicitly or implicitly) [NotNull]
+(5): INTypeHighlighting: 'string' is (explicitly or implicitly) [NotNull]
+(6): ReSharper Warning: Expression is always false
+(7): ReSharper Warning: Possible 'null' assignment to entity marked with 'NotNull' attribute
+(8): INTypeHighlighting: 'string' is (explicitly or implicitly) [NotNull]
+(9): INTypeHighlighting: 'string' is (explicitly or implicitly) [NotNull]
+(10): INTypeHighlighting: 'TypeHighlightingSample' is (explicitly or implicitly) [NotNull]
+(11): INTypeHighlighting: 'TypeHighlightingSample' is (explicitly or implicitly) [NotNull]
+(12): INTypeHighlighting: 'string' is (explicitly or implicitly) [NotNull]
+(13): INTypeHighlighting: 'string' is (explicitly or implicitly) [NotNull]
+(14): INTypeHighlighting: 'IEnumerable<string>' is (explicitly or implicitly) [NotNull]
+(15): INTypeHighlighting: 'string' is (explicitly or implicitly) [NotNull]
+(16): INTypeHighlighting: 'string' is (explicitly or implicitly) [NotNull]
